@@ -1,23 +1,35 @@
 plugins {
-    id 'fabric-loom' version '1.3-SNAPSHOT' apply(false)
+    id 'fabric-loom' version '1.+' apply(false)
     id 'maven-publish'
 }
 
 group 'top.gregtao.xibao'
-version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+allprojects {
+    apply plugin: 'java'
 
-project(":Fabric-1.20.1") {
+    sourceSets {
+        main {
+            resources {
+                srcDir 'resources'
+            }
+        }
+    }
+}
+
+subprojects {
+    sourceSets {
+        main {
+            resources {
+                srcDirs += project(':').sourceSets.main.resources.srcDirs // 引用父级项目的资源文件夹
+            }
+        }
+    }
 
     apply plugin: 'fabric-loom'
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-
-    archivesBaseName = project.archives_base_name
+    archivesBaseName = project(':').archives_base_name
     setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_20_1")
 
     repositories {
     }
@@ -26,9 +38,7 @@ project(":Fabric-1.20.1") {
         minecraft "com.mojang:minecraft:${project.minecraft_version}"
         mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
         modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
         modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
     }
 
     processResources {
@@ -39,10 +49,6 @@ project(":Fabric-1.20.1") {
         }
     }
 
-    tasks.withType(JavaCompile).configureEach {
-        it.options.release = 17
-    }
-
     java {
     }
 
@@ -50,320 +56,87 @@ project(":Fabric-1.20.1") {
         from("LICENSE") {
             rename { "${it}_${project.archivesBaseName}"}
         }
+    }
+}
+
+
+project(":Fabric-1.20.4") {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 17
+    }
+}
+
+project(":Fabric-1.20.1") {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 17
     }
 }
 
 project(":Fabric-1.20") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_20_0")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
-    }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
     }
 }
 
 project(":Fabric-1.19.4") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_19_4")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
-    }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
     }
 }
 
 project(":Fabric-1.19.3") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_19_3")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
-    }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
     }
 }
 
 project(":Fabric-1.19") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_19")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
-    }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
     }
 }
 
 project(":Fabric-1.18.2") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_18_2")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
 
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
     }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
-    }
 }
 
 project(":Fabric-1.17.1") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
-
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_17_1")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
 
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 16
     }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
-    }
 }
 
 project(":Fabric-1.16.5") {
-
-    apply plugin: 'fabric-loom'
-
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    archivesBaseName = project.archives_base_name
-    setVersion(project.mod_version)
-    setGroup(project.maven_group + ".1_16_5")
-
-    repositories {
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    }
-
-    processResources {
-        inputs.property "version", project.version
-
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 8
-    }
-
-    java {
-    }
-
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${project.archivesBaseName}"}
-        }
     }
 }

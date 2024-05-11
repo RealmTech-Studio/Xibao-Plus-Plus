@@ -2,7 +2,6 @@ package top.gregtao.xibaopp.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -12,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.gregtao.xibaopp.SnowAnimation;
+import top.gregtao.xibaopp.BackgroundWidget;
 import top.gregtao.xibaopp.XibaoPlusPlusConfig;
-import top.gregtao.xibaopp.util.RenderHelper;
 
 @Environment(EnvType.CLIENT)
 @Mixin(DisconnectedScreen.class)
@@ -41,18 +40,6 @@ public class DisconnectedScreenMixin extends Screen {
                 button -> XibaoPlusPlusConfig.switchAlbum())
                 .dimensions(this.width / 2 + 34, this.height - 22, 66, 20).build());
         if (XibaoPlusPlusConfig.displaySnow) SnowAnimation.INSTANCE = new SnowAnimation(XibaoPlusPlusConfig.random);
-    }
-
-    @Inject(method = "render", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V"))
-    private void renderInject(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (this.client == null) return;
-        if (XibaoPlusPlusConfig.showPicture) {
-            RenderHelper.renderStretchTexture(this.width, this.height, 225,
-                    XibaoPlusPlusConfig.type.background);
-        }
-        if (XibaoPlusPlusConfig.displaySnow || XibaoPlusPlusConfig.tempSnow) {
-            SnowAnimation.INSTANCE.tick(this.width, this.height, XibaoPlusPlusConfig.type.snows);
-        }
+        this.addDrawableChild(new BackgroundWidget());
     }
 }

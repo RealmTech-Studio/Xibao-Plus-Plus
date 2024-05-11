@@ -11,7 +11,7 @@ public class XibaoPlusPlusMain implements ClientModInitializer {
         try {
             XibaoPlusPlusConfig.loadConfig();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
