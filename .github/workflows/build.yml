@@ -28,5 +28,5 @@ jobs:
         with:
           name: xibao-build
           path: |
-            Fabric-*/build/libs/concerto-*-*-mc*.jar
-            !Fabric-*/build/libs/concerto-*-*-mc*-*.jar
+            Fabric-*/build/libs/XibaoPlusPlus-*-*-mc*.jar
+            !Fabric-*/build/libs/XibaoPlusPlus-*-*-mc*-*.jar
